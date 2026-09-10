@@ -22,7 +22,7 @@ public interface StoredModelResourceBaseMixin {
             remap = false,
             require = 1
     )
-    private static OptimizedModelWrapper mtrPatches$skipUnusedOptimizedModel(StoredModelResourceBase resource) {
+    private OptimizedModelWrapper mtrPatches$skipUnusedOptimizedModel(StoredModelResourceBase resource) {
         if (PatchConfig.FIX_STORED_MODEL_RESOURCE_DOUBLE_FETCH.get() && !OptimizedRenderer.hasOptimizedRendering()) {
             return null;
         }
@@ -38,7 +38,7 @@ public interface StoredModelResourceBaseMixin {
             remap = false,
             require = 1
     )
-    private static DynamicVehicleModel mtrPatches$skipUnusedDynamicModel(StoredModelResourceBase resource) {
+    private DynamicVehicleModel mtrPatches$skipUnusedDynamicModel(StoredModelResourceBase resource) {
         if (PatchConfig.FIX_STORED_MODEL_RESOURCE_DOUBLE_FETCH.get() && OptimizedRenderer.hasOptimizedRendering()) {
             return null;
         }
