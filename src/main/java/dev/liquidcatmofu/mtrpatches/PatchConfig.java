@@ -1,0 +1,39 @@
+package dev.liquidcatmofu.mtrpatches;
+
+import net.minecraftforge.common.ForgeConfigSpec;
+
+public final class PatchConfig {
+    public static final ForgeConfigSpec SPEC;
+    public static final ForgeConfigSpec.BooleanValue FIX_HIDDEN_TRANSLUCENT_BATCH_LEAK;
+    public static final ForgeConfigSpec.BooleanValue FIX_CACHED_RESOURCE_REGISTRY_LEAK;
+    public static final ForgeConfigSpec.BooleanValue FIX_CACHED_RESOURCE_ACCESS_EXPIRY;
+    public static final ForgeConfigSpec.BooleanValue FIX_LIFT_MODEL_REBUILD;
+    public static final ForgeConfigSpec.BooleanValue FIX_STORED_MODEL_RESOURCE_DOUBLE_FETCH;
+
+    static {
+        ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
+
+        builder.push("patches");
+        FIX_HIDDEN_TRANSLUCENT_BATCH_LEAK = builder
+                .comment("Clear MTR translucent render batches when translucent rendering is disabled.")
+                .define("fixHiddenTranslucentBatchLeak", true);
+        FIX_CACHED_RESOURCE_REGISTRY_LEAK = builder
+                .comment("Stop MTR CachedResource.CACHED_RESOURCES from permanently strongly retaining every cache instance.")
+                .define("fixCachedResourceRegistryLeak", true);
+        FIX_CACHED_RESOURCE_ACCESS_EXPIRY = builder
+                .comment("Refresh CachedResource expiry whenever a still-valid cached value is actually accessed, independently of MTR's global one-rebuild-at-a-time throttle.")
+                .define("fixCachedResourceAccessExpiry", true);
+        FIX_LIFT_MODEL_REBUILD = builder
+                .comment("Reuse ModelLift1 instances by lift dimensions instead of rebuilding and baking the same model every visible render.")
+                .define("fixLiftModelRebuild", true);
+        FIX_STORED_MODEL_RESOURCE_DOUBLE_FETCH = builder
+                .comment("Avoid fetching both optimized and fallback StoredModelResource models every render when only one renderer path can be used.")
+                .define("fixStoredModelResourceDoubleFetch", true);
+        builder.pop();
+
+        SPEC = builder.build();
+    }
+
+    private PatchConfig() {
+    }
+}
