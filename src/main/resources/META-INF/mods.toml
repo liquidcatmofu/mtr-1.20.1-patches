@@ -1,0 +1,34 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MIT"
+clientSideOnly=true
+
+[[mods]]
+modId="mtr_patches"
+version="0.1.0"
+displayName="MTR 1.20.1 Patches"
+authors="LiquidCatMofu"
+description='''
+Client-side compatibility and memory-leak patches for MTR 4.x on Minecraft 1.20.1.
+'''
+
+[[dependencies.mtr_patches]]
+modId="forge"
+mandatory=true
+versionRange="[47,)"
+ordering="NONE"
+side="CLIENT"
+
+[[dependencies.mtr_patches]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,1.20.2)"
+ordering="NONE"
+side="CLIENT"
+
+[[dependencies.mtr_patches]]
+modId="mtr"
+mandatory=true
+versionRange="[4.0,4.1)"
+ordering="AFTER"
+side="CLIENT"
