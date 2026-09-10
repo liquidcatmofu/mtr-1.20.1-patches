@@ -17,11 +17,17 @@ import java.util.function.Supplier;
 @Mixin(targets = "org.mtr.mod.resource.CachedResource", remap = false)
 public abstract class CachedResourceMixin {
     @Shadow
+    private Object data;
+
+    @Shadow
     private long expiry;
 
     @Shadow
     @Final
     private long lifespan;
+
+    @Shadow
+    private static boolean canFetchCache;
 
     @Inject(
             method = "<init>(Ljava/util/function/Supplier;J)V",
@@ -37,19 +43,24 @@ public abstract class CachedResourceMixin {
 
     @Inject(
             method = "getData(Z)Ljava/lang/Object;",
-            at = @At("RETURN"),
+            at = @At("HEAD"),
             remap = false,
             require = 1
     )
-    private void mtrPatches$refreshExpiryOnAccess(boolean force, CallbackInfoReturnable<Object> cir) {
-        if (!PatchConfig.FIX_CACHED_RESOURCE_ACCESS_EXPIRY.get() || cir.getReturnValue() == null) {
+    private void mtrPatches$refreshExpiryOnSuppressedAccess(boolean force, CallbackInfoReturnable<Object> cir) {
+        // Stock MTR already refreshes expiry whenever force=true or the global
+        // rebuild throttle is open. Only intervene in the branch where stock
+        // MTR would skip the refresh despite returning an existing value.
+        if (!PatchConfig.FIX_CACHED_RESOURCE_ACCESS_EXPIRY.get()
+                || force
+                || data == null
+                || canFetchCache) {
             return;
         }
 
         final long now = System.currentTimeMillis();
-        // Do not revive a value that had already expired before this access.
-        // Fresh/rebuilt values already have an expiry in the future, and active
-        // values are extended here even when MTR's global canFetchCache flag is false.
+        // Do not revive data whose previous expiry has already elapsed. If the
+        // value is still valid, record this access by extending its idle TTL.
         if (now <= expiry) {
             expiry = now + lifespan;
         }
