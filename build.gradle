@@ -12,6 +12,17 @@ base {
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
+sourceSets {
+    mtrStub {
+        java.srcDir 'src/stubs/java'
+    }
+}
+sourceSets.main.compileClasspath += sourceSets.mtrStub.output
+
+tasks.named('compileJava').configure {
+    dependsOn tasks.named('compileMtrStubJava')
+}
+
 minecraft {
     mappings channel: 'official', version: '1.20.1'
 
