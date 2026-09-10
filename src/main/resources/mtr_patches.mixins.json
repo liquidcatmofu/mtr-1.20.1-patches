@@ -6,7 +6,8 @@
   "client": [
     "BatchManagerMixin",
     "CachedResourceMixin",
-    "RenderLiftsMixin"
+    "RenderLiftsMixin",
+    "StoredModelResourceBaseMixin"
   ],
   "injectors": {
     "defaultRequire": 0
