@@ -8,6 +8,7 @@ public final class PatchConfig {
     public static final ForgeConfigSpec.BooleanValue FIX_CACHED_RESOURCE_REGISTRY_LEAK;
     public static final ForgeConfigSpec.BooleanValue FIX_CACHED_RESOURCE_ACCESS_EXPIRY;
     public static final ForgeConfigSpec.BooleanValue FIX_LIFT_MODEL_REBUILD;
+    public static final ForgeConfigSpec.BooleanValue FIX_STORED_MODEL_RESOURCE_DOUBLE_FETCH;
 
     static {
         ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
@@ -25,6 +26,9 @@ public final class PatchConfig {
         FIX_LIFT_MODEL_REBUILD = builder
                 .comment("Reuse ModelLift1 instances by lift dimensions instead of rebuilding and baking the same model every visible render.")
                 .define("fixLiftModelRebuild", true);
+        FIX_STORED_MODEL_RESOURCE_DOUBLE_FETCH = builder
+                .comment("Avoid fetching both optimized and fallback StoredModelResource models every render when only one renderer path can be used.")
+                .define("fixStoredModelResourceDoubleFetch", true);
         builder.pop();
 
         SPEC = builder.build();
