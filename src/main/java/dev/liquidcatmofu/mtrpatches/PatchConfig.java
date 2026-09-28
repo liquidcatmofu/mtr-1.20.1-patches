@@ -21,8 +21,8 @@ public final class PatchConfig {
                 .comment("Stop MTR CachedResource.CACHED_RESOURCES from permanently strongly retaining every cache instance.")
                 .define("fixCachedResourceRegistryLeak", true);
         FIX_CACHED_RESOURCE_ACCESS_EXPIRY = builder
-                .comment("Refresh CachedResource expiry whenever a still-valid cached value is actually accessed, independently of MTR's global one-rebuild-at-a-time throttle.")
-                .define("fixCachedResourceAccessExpiry", true);
+                .comment("Experimental: refresh CachedResource expiry whenever a still-valid cached value is actually accessed, independently of MTR's global one-rebuild-at-a-time throttle. Disabled by default because profiling confirmed the suppressed refresh condition but did not establish a consistent practical benefit.")
+                .define("fixCachedResourceAccessExpiry", false);
         FIX_LIFT_MODEL_REBUILD = builder
                 .comment("Reuse ModelLift1 instances by lift dimensions instead of rebuilding and baking the same model every visible render.")
                 .define("fixLiftModelRebuild", true);

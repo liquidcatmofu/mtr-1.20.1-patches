@@ -9,7 +9,7 @@ version="0.1.0"
 displayName="MTR 1.20.1 Patches"
 authors="LiquidCatMofu"
 description='''
-Client-side compatibility and memory-leak patches for MTR 4.x on Minecraft 1.20.1.
+Client-side compatibility, memory-leak, and performance patches for MTR 4.0.5 on Minecraft 1.20.1.
 '''
 
 [[dependencies.mtr_patches]]
@@ -29,6 +29,6 @@ side="CLIENT"
 [[dependencies.mtr_patches]]
 modId="mtr"
 mandatory=true
-versionRange="[4.0,4.1)"
+versionRange="[4.0.5]"
 ordering="AFTER"
 side="CLIENT"

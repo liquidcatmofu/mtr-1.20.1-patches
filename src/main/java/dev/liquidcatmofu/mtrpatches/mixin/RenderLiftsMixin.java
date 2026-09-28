@@ -12,13 +12,16 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(targets = "org.mtr.mod.render.RenderLifts", remap = false)
 public abstract class RenderLiftsMixin {
     /**
-     * The ModelLift1 allocation lives in the synthetic lambda generated for
-     * RenderLifts#render, not in render() itself. Runtime profiler call paths on
-     * the targeted MTR 1.20.1 build identify this method as lambda$render$6.
+     * The ModelLift1 allocation currently lives inside a compiler-generated
+     * lambda. Match all methods in RenderLifts and constrain the injection to
+     * the exact constructor instead of depending on a synthetic lambda number.
      */
     @Redirect(
-            method = "lambda$render$6",
-            at = @At(value = "NEW", target = "Lorg/mtr/mod/model/ModelLift1;"),
+            method = "*",
+            at = @At(
+                    value = "NEW",
+                    target = "(IIIZ)Lorg/mtr/mod/model/ModelLift1;"
+            ),
             remap = false,
             require = 1
     )
