@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.liquidcatmofu.mtrpatches.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+    "BatchManagerMixin",
+    "CachedResourceMixin",
+    "RenderLiftsMixin",
+    "StoredModelResourceBaseMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}
